@@ -1,0 +1,11 @@
+{
+	"author": "NicolasPetton",
+	"core-version": ">=5.1.22",
+	"title": "$:/plugins/nico/notebook-mobile",
+	"name": "Mobile support for the Notebook theme",
+	"description": "Synchronize changes from the node.js server to the local filesystem",
+	"description": "JavaScript hooks for mobile devices support of the Notebook theme",
+	"plugin-type": "plugin",
+	"source": "https://github.com/NicolasPetton/Notebook",
+	"version": "1.0.0"
+}

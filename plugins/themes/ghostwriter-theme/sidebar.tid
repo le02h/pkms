@@ -1,0 +1,23 @@
+type: text/vnd.tiddlywiki
+title: $:/core/ui/PageTemplate/sidebar
+tags: $:/tags/PageTemplate $:/irreverent-mudblood/ghostwriter
+revision: 0
+modified: 20161031174446017
+created: 20161030145349771
+bag: default
+
+<$scrollable fallthrough="no" class="tc-sidebar-scrollable">
+
+<div class="tc-sidebar-header">
+
+<$reveal state="$:/state/sidebar" type="match" text="yes" default="no" retain="yes" animate="yes">
+
+{{||$:/core/ui/PageTemplate/pagecontrols}}
+
+<$transclude tiddler="$:/core/ui/SideBarLists" mode="inline"/>
+
+</$reveal>
+
+</div>
+
+</$scrollable>

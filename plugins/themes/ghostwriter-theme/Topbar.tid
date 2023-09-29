@@ -1,0 +1,25 @@
+type: text/vnd.tiddlywiki
+title: $:/themes/ghostwriter/Topbar
+tags: $:/tags/AboveStory $:/irreverent-mudblood/ghostwriter
+revision: 0
+modifier: venomspinner
+modified: 20161110053524450
+creator: venomspinner
+created: 20161028092007386
+bag: default
+
+<$reveal state="$:/themes/ghostwriter/user/topbarhide" type="nomatch" text="hide">
+ <header class="site-header" style="text-align:center;">
+            <div class="container">
+                <div class="site-title-wrapper">
+                        <h1 class="site-title"><a href="#">{{$:/SiteTitle}}</a></h1>
+                </div>
+
+                <div class="site-nav">
+<$reveal state="$:/themes/ghostwriter/user/homehide" type="nomatch" text="hide"><$button class="site-nav-item tc-btn-invisible" message="tm-home">HOME</$button></$reveal>
+<$reveal state="$:/themes/ghostwriter/user/contenthide" type="nomatch" text="hide"><$button to="$:/TableOfContents" class="site-nav-item tc-btn-invisible">Contents</$button></$reveal>
+<$reveal state="$:/themes/ghostwriter/user/abouthide" type="nomatch" text="hide"><$button to="$:/About" class="site-nav-item tc-btn-invisible">About</$button></$reveal>
+<$list filter="[![$:/themes/ghostwriter/topbarbtntemplate]tag[$:/themes/ghostwriter/user/topbarbutton]]"><$transclude/></$list>
+                </div>
+            </div>
+        </header></$reveal>

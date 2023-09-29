@@ -1,0 +1,14 @@
+created: 20161109145142879
+title: $:/themes/ghostwriter/Acknowledgements
+tags: $:/irreverent-mudblood/ghostwriter
+modified: 20161110105943157
+
+This is an adaptation of the ''Ghostwriter'' Blog Theme by ''Rory Gibson'' at  https://github.com/roryg/ghostwriter for the TW5 platform. All the creative and design credits belong to him. It is a heavily popular and free theme for the ghost blogging platform. 
+
+This is a ''mobile responsive'', minimalist theme. The stylesheets are seperated out so that you can tweak to your likes. Some of the classes are redundant, I will get around to them //as and when possible//. 
+
+The other person I must furnish credits to is ''Zaphod Beeblebrox ''for the tip that enabled custom backgrounds for sidebar. Later I injected z-index to the same and found that it can be made to overlay the storyriver, which I found a neater alternative to pushing the content to a side. The stylesheet for displaying tiddler controls should be credited to ''Tobias Beer''. 
+
+Kudos to the group, especially Jan and Josiah, for their inputs and encouragement. I have tried to include most of the suggestions that came by. Be not shy to tell me about yours
+
+Finally, the obligatory note of thanks to'' Jeremy Ruston''

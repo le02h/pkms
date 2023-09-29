@@ -1,0 +1,29 @@
+created: 20161101103541902
+creator: Riz
+title: $:/themes/ghostwriter/options
+tags: $:/tags/ControlPanel/Appearance $:/irreverent-mudblood/ghostwriter
+modified: 20161202053044155
+caption: Ghostwriter
+modifier: Riz
+
+!!Palette
+|Color theme|<$edit-text tiddler="$:/themes/ghostwriter/stylesheet/main"  type="color" tag="input"  field="theme_color"/><br><$edit-text tiddler="$:/themes/ghostwriter/stylesheet/main"  field="theme_color"/>|
+|Color of the Sidebar Show/Hide Button|<$edit-text tiddler="$:/irreverent-mudblood/overlay-sidebar/stylesheet"  field="roundbtnbg"  type="color" tag="input"/><br><$edit-text tiddler="$:/irreverent-mudblood/overlay-sidebar/stylesheet"  field="roundbtnbg"/>|
+
+!!Edit Toolbar
+|Transparency of Edit Toolbar Buttons |<$select tiddler='$:/themes/ghostwriter/transparencystate'><option value='all'>''All'' </option><option value='close'>All ''except close button''</option><option value='none'>None</option></$select>|
+
+!!Topbar and Pagination
+|Show/Hide Topbar | <span style="float:left;"> <$reveal state="$:/themes/ghostwriter/user/topbarhide" type="nomatch" text="hide"><$button>Hide Topbar<$action-setfield $tiddler="$:/themes/ghostwriter/user/topbarhide" text="hide"/></$button></$reveal><$reveal state="$:/themes/ghostwriter/user/topbarhide" type="match" text="hide"><$button>Show Topbar<$action-setfield $tiddler="$:/themes/ghostwriter/user/topbarhide" text="show"/></$button></$reveal></span>|
+|Add a Top-bar Button|<$button><$action-sendmessage $message="tm-new-tiddler" title="New Site Nav Item" tags="$:/themes/ghostwriter/user/topbarbutton" text={{$:/themes/ghostwriter/topbarbtntemplate}}/>New Top Bar Button</$button>|
+|Show / Hide Default Top-bar Button |<span style="float:left;"> <$checkbox class="autowidthinput" tiddler="$:/themes/ghostwriter/user/homehide" field="text" checked="show" unchecked="hide" default="show"> Home</$checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<$checkbox class="autowidthinput" tiddler="$:/themes/ghostwriter/user/contenthide" field="text" checked="show" unchecked="hide" default="show"> Content</$checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<$checkbox class="autowidthinput" tiddler="$:/themes/ghostwriter/user/abouthide" field="text" checked="show" unchecked="hide" default="show">&nbsp;About</$checkbox></span>|
+|Pagination|<$checkbox class="autowidthinput" tiddler="$:/themes/ghostwriter/pagination" tag="$:/tags/BelowStory">  Display</$checkbox>|
+
+!!Mobile
+|Font Size|^<$edit-text tiddler="$:/themes/ghostwriter/user/mobile" field="fontsize" default="" tag="input"/> |
+|Title Size|^<$edit-text tiddler="$:/themes/ghostwriter/user/mobile" field="titlesize" default="28px" tag="input"/> |
+
+<$button class="tc-btn-big-green" style="background-color:#e52d27;width:100%;font-size:14px;">Remove Ghostwriter
+<$action-deletetiddler $filter="[prefix[$:/themes/ghostwriter/user/]]"/>
+<$action-sendmessage $message="tm-delete-tiddler" $param="$:/plugins/venomspinner/ghostwriter"/>
+</$button>

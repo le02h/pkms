@@ -1,0 +1,44 @@
+created: 20161202043138190
+creator: Riz
+title: $:/themes/ghostwriter/pagination
+tags: $:/tags/BelowStory
+modified: 20161202050759321
+modifier: Riz
+
+\define paginate(discard:3)
+<a><$button class="tc-btn-invisible pages">
+<$action-listops $tiddler="$:/StoryList" $field="list" $filter="[!is[system]!is[missing]!sort[modified]rest[$discard$]limit[3]]"/>
+<$list variable='Target' filter="[!is[system]!is[missing]!sort[modified]rest[$discard$]limit[3]first[]]"><$action-navigate $to=<<Target>>/></$list></$button></a>
+\end
+<style>
+.emm-paginate {
+counter-reset: paginate;
+text-align: center;
+}
+.emm-paginate a:hover {
+border-bottom:none;
+color:#fff;
+
+}
+.tc-btn-invisible.pages {
+	border: 1px solid #c1c1c1;
+	padding: 4px 8px;
+}
+.tc-btn-invisible.pages:hover {
+background:#a1a1a1;
+}
+button.pages::after {
+    counter-increment: paginate;
+    content:   counter(paginate) ;
+}
+</style>
+
+<div class="emm-paginate">
+<a><$button class="tc-btn-invisible pages">
+<$action-listops $tiddler="$:/StoryList" $field="list" $filter="[!is[system]!is[missing]!sort[modified]limit[3]]"/>
+<$list variable='Target' filter="[!is[system]!is[missing]!sort[modified]limit[3]first[]]"><$action-navigate $to=<<Target>>/></$list></$button></a>
+<<paginate 3>>
+<<paginate 6>>
+<<paginate 9>>
+<<paginate 12>>
+</div>

@@ -1,0 +1,49 @@
+created: 20161030153009897
+type: text/vnd.tiddlywiki
+title: $:/irreverent-mudblood/overlay-sidebar/stylesheet
+tags: $:/tags/Stylesheet $:/OverlaySidebar $:/irreverent-mudblood/ghostwriter
+revision: 0
+modified: 20161111175422374
+bag: default
+roundbtnbg: #ee4056
+roundbtnspan: #fff
+
+.roundbtn {
+background-color:{{!!roundbtnbg}};
+font-size: 25px; 
+position: relative;
+display: inline-block;
+width: 35px;
+height: 35px;
+cursor: pointer; 
+border: none; 
+border-radius:100px; 
+box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+
+}
+
+.roundbtn span svg{
+font-size:15px;  
+position: absolute;  
+top: 0;  right: 0;    
+bottom: 0;    
+left: 0;    
+overflow: auto;    
+width: 50%;    
+height: 50%;    
+margin: auto; 
+opacity: 0.8;
+fill: {{!!roundbtnspan}};
+
+}
+.roundbtn:hover span svg{
+font-size:15px;  
+position: absolute;  
+top: 0;  right: 0;    
+bottom: 0;    
+left: 0;    
+overflow: auto;    
+margin: auto; 
+opacity:1;
+fill: {{!!roundbtnspan}} !important;
+}

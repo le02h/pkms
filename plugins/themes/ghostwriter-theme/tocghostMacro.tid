@@ -1,0 +1,104 @@
+type: text/vnd.tiddlywiki
+title: $:/themes/ghostwriter/tocghostMacro
+tags: $:/tags/Macro $:/irreverent-mudblood/ghostwriter
+revision: 0
+modified: 20161110084617042
+created: 20161031140339462
+bag: default
+
+\define tocghost-caption()
+<$set name="tv-wikilinks" value="no">
+<$transclude field="caption">
+<span class="post-stub-title"><$view field="title"/></span>
+</$transclude>
+<$transclude field="caption">
+ <span class="post-stub-date">/ Published <$view field="created" format="date" template="DDth MMM YYYY"/></span>
+</$transclude>
+</$set>
+\end
+
+\define tocghost-body(rootTag,tag,sort:"")
+<ol class="post-list">
+<$list filter="""[all[shadows+tiddlers]tag[$tag$]!has[draft.of]$sort$]""">
+<li class="post-stub">
+<$list filter="[all[current]tocghost-link[no]]" emptyMessage="<$link><$view field='caption'><$view field='title'/></$view></$link>">
+<<tocghost-caption>>
+</$list>
+<$list filter="""[all[current]] -[[$rootTag$]]""">
+<$macrocall $name="tocghost-body" rootTag="""$rootTag$""" tag=<<currentTiddler>> sort="""$sort$""" itemClassFilter="""$itemClassFilter$"""/>
+</$list>
+</li>
+</$set>
+</$list>
+</ol>
+\end
+
+
+\define tocghost-linked-selective-expandable-body(tag,sort:"",itemClassFilter)
+<$set name="tocghost-state" value=<<qualify """$:/state/tocghost/$tag$-$(currentTiddler)$""">>>
+<$set name="tocghost-item-class" filter="""$itemClassFilter$""" value="tocghost-item-selected" emptyValue="tocghost-item">
+<li class="post-stub">
+<$link>
+<$list filter="[all[current]tagging[]limit[1]]" variable="ignore" emptyMessage="<$button class='tc-btn-invisible'>{{$:/core/images/blank}}</$button>">
+<$reveal type="nomatch" state=<<tocghost-state>> text="open">
+<$button set=<<tocghost-state>> setTo="open" class="tc-btn-invisible">
+{{$:/core/images/right-arrow}}
+</$button>
+</$reveal>
+<$reveal type="match" state=<<tocghost-state>> text="open">
+<$button set=<<tocghost-state>> setTo="close" class="tc-btn-invisible">
+{{$:/core/images/down-arrow}}
+</$button>
+</$reveal>
+</$list>
+<<tocghost-caption>>
+</$link>
+<$reveal type="match" state=<<tocghost-state>> text="open">
+<$macrocall $name="tocghost-selective-expandable" tag=<<currentTiddler>> sort="""$sort$""" itemClassFilter="""$itemClassFilter$"""/>
+</$reveal>
+</li>
+</$set>
+</$set>
+\end
+
+\define tocghost-unlinked-selective-expandable-body(tag,sort:"",itemClassFilter)
+<$set name="tocghost-state" value=<<qualify """$:/state/tocghost/$tag$-$(currentTiddler)$""">>>
+<$set name="tocghost-item-class" filter="""$itemClassFilter$""" value="tocghost-item-selected" emptyValue="tocghost-item">
+<li class="post-stub">
+<$list filter="[all[current]tagging[]limit[1]]" variable="ignore" emptyMessage="<$button class='tc-btn-invisible'>{{$:/core/images/blank}}</$button> <$view field='caption'><$view field='title'/></$view>">
+<$reveal type="nomatch" state=<<tocghost-state>> text="open">
+<$button set=<<tocghost-state>> setTo="open" class="tc-btn-invisible">
+{{$:/core/images/right-arrow}}
+<<tocghost-caption>>
+</$button>
+</$reveal>
+<$reveal type="match" state=<<tocghost-state>> text="open">
+<$button set=<<tocghost-state>> setTo="close" class="tc-btn-invisible">
+{{$:/core/images/down-arrow}}
+<<tocghost-caption>>
+</$button>
+</$reveal>
+</$list>
+<$reveal type="match" state=<<tocghost-state>> text="open">
+<$macrocall $name="""tocghost-selective-expandable""" tag=<<currentTiddler>> sort="""$sort$""" itemClassFilter="""$itemClassFilter$"""/>
+</$reveal>
+</li>
+</$set>
+</$set>
+\end
+
+\define tocghost-selective-expandable-empty-message()
+<<tocghost-linked-selective-expandable-body tag:"""$(tag)$""" sort:"""$(sort)$""" itemClassFilter:"""$(itemClassFilter)$""">>
+\end
+
+\define tocghost-selective-expandable(tag,sort:"",itemClassFilter)
+<$vars tag="""$tag$""" sort="""$sort$""" itemClassFilter="""$itemClassFilter$""">
+<ol class="post-list">
+<$list filter="[all[shadows+tiddlers]tag[$tag$]!has[draft.of]$sort$]">
+<$list filter="[all[current]tocghost-link[no]]" variable="ignore" emptyMessage=<<tocghost-selective-expandable-empty-message>>>
+<<tocghost-unlinked-selective-expandable-body tag:"""$tag$""" sort:"""$sort$""" itemClassFilter:"""$itemClassFilter$""">>
+</$list>
+</$list>
+</ol>
+</$vars>
+\end

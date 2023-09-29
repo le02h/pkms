@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+</head>
+<body>
+    <div style="display: none;"" id="tiddlers-store">
+        <!-- tiddler without text field -->
+        <p id="1" title="$:/state/temp" created="20230927010203456" />
+        <!-- tiddler with simeple text -->
+        <p id="2" title="$:/SiteTitle">My TiddlyWiki</p>
+        <!-- tiddler with complex data -->
+        <p id="3" title="$:/example/js"><script type="text/plain"><![CDATA[
+function min(a, b) {
+  return a < b ? a : b;
+}]]></script></p>
+    </div>
+    <script type="application/javascript">
+        const attr = name => p.getAttribute(name)
+        const store = document.getElementById('tiddlers-store');
+        const p = store.children[2];
+        const tiddler = {
+            id: attr('id'),
+            title: attr('title'),
+            created: attr('created'),
+            text: p.textContent.replace('<![CDATA[', '').replace(/\]\]>$/, '').trim()
+        };
+        console.log(tiddler);
+        console.log(p.getAttributeNames());
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+title: $:/TableOfContents
+tags: $:/irreverent-mudblood/ghostwriter interface
+modified: 20161110070238232
+list: 
+created: 20161109082528301
+
+<div class="titleclass"> Table of Contents </div>
+
+<div class="post-index">
+<<tocghost-selective-expandable "TableOfContents""!sort[modified]">>
+</div>

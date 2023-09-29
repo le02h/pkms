@@ -1,0 +1,34 @@
+created: 20161030153934135
+type: text/vnd.tiddlywiki
+title: $:/irreverent-mudblood/overlay-sidebar/backgroundstyle
+tags: $:/OverlaySidebar $:/irreverent-mudblood/ghostwriter
+revision: 0
+modified: 20161109105829329
+bag: default
+
+<style>
+@media only screen and (min-width: {{$:/themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint}}) {
+.tc-sidebar-scrollable { 
+background-color: #FEFEFE; 
+z-index: 1000 !important;
+padding: 42px 0 28px 42px;
+border-left: 1px solid #e1e1e1;
+}
+}
+
+@media only screen and (max-width: {{$:/themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint}}) {
+.tc-sidebar-scrollable { 
+position:fixed !important;
+background-color:#FEFEFE; 
+padding: 42px 0 28px 42px;
+z-index: 1000 !important; 
+width:100% !important ; 
+border-left: 1px solid #e1e1e1;
+left:0% !important;
+top: 0px !important;
+bottom: 0 !important;
+right: 0 !important;
+margin: 0 0 0 -20px !important;
+}
+}
+</style>

@@ -1,0 +1,21 @@
+type: text/vnd.tiddlywiki
+title: $:/core/ui/TopBar/menu
+tags: $:/tags/TopRightBar $:/irreverent-mudblood/ghostwriter
+revision: 0
+modifier: Dr. Rizwan Ishak
+modified: 20161031174446206
+creator: Dr. Rizwan Ishak
+created: 20161002082547234
+bag: default
+
+<$reveal state="$:/state/sidebar" type="nomatch" text="no" default="no">
+<$button set="$:/state/sidebar" setTo="no" tooltip={{$:/language/Buttons/HideSideBar/Hint}} aria-label={{$:/language/Buttons/HideSideBar/Caption}} class="roundbtn">
+<span>{{$:/core/images/right-arrow}}</span>
+{{$:/irreverent-mudblood/overlay-sidebar/backgroundstyle}}
+</$button>
+</$reveal>
+<$reveal state="$:/state/sidebar" type="match" text="no" default="no">
+<$button set="$:/state/sidebar" setTo="yes" tooltip={{$:/language/Buttons/ShowSideBar/Hint}} aria-label={{$:/language/Buttons/ShowSideBar/Caption}} class="roundbtn"><span>{{$:/core/images/left-arrow}}</span>
+{{$:/irreverent-mudblood/overlay-sidebar/backgroundstyle2}}
+</$button>
+</$reveal>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/mini-default.min.css">
+    <title>{{title}}</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm col-md-6 col-md-offset-3">
+                <h1>{{title}}</h1>
+                <ul>
+                    {{#each links}}
+                    <li><a href="{{link}}">{{text}}</a></li>
+                    {{else}}
+                    <li>Empty</li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
