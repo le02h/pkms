@@ -8,11 +8,10 @@
   },
   "scripts": {
     "tw5": "tiddlywiki",
-    "build:PL": "tiddlywiki wikis/PL --build static",
+    "build:PL": "tiddlywiki data/PL --build static",
     "lint": "eslint",
-    "helpers:plugin": "node ./helpers/extract-plugin.js",
     "listen": "tiddlywiki tmp --listen",
-    "start": "node src/index.js serve wikis"
+    "start": "node src/index.js serve data"
   },
   "keywords": [],
   "author": "Holmes Conan",
