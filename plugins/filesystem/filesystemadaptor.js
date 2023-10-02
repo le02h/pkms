@@ -69,15 +69,88 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
    * Save a tiddler and invoke the callback with (err,adaptorInfo,revision)
    */
   FileSystemAdaptor.prototype.saveTiddler = function (tiddler, callback, options) {
+    const self = this
     const title = tiddler.fields.title
     if (this.shouldSaveInCache(tiddler)) {
       this.cache[title] = tiddler.fields
       callback(null)
     } else {
-      this.saveTiddlerToFile(tiddler, options, function (err, fileInfo) {
-        callback(err, fileInfo)
+      const fileInfo = this.boot.files[title]
+      this.saveTiddlerToFile(tiddler, options, function (err, newFileInfo) {
+        if (err) return callback(err)
+
+        if (fileInfo) {
+          if (/system.json$/.test(fileInfo.filepath)) {
+            self.updateSystemJson(newFileInfo, function (err) {
+              callback(err, fileInfo)
+            })
+          }
+        }
       })
     }
+  }
+
+  FileSystemAdaptor.prototype.updateSystemJson = function (fileInfo, callback) {
+    const filepath = path.resolve(this.boot.wikiTiddlersPath, 'system.json')
+
+    this.readTiddlerFile(fileInfo.filepath, function (err, fields) {
+      if (err) return callback(err)
+      const tiddlers = fs.existsSync(filepath) ? JSON.parse(fs.readFileSync(filepath)) : []
+      const index = tiddlers.findIndex(el => el.title === fields.title)
+      if (index === -1) {
+        tiddlers.push(fields)
+      } else {
+        tiddlers[index] = fields
+      }
+      console.log(fileInfo)
+      const content = '[' + tiddlers.map(t => JSON.stringify(t, null, 2)).join(', ') + ']'
+      this.writeToFile(filepath, content, function (err) {
+        if (!err) fs.unlinkSync(fileInfo.filepath)
+
+        callback(err, {
+          filepath,
+          hasMetaFile: false
+        })
+      })
+    })
+  }
+
+  FileSystemAdaptor.prototype.writeToFile = function (filepath, content, callback) {
+    if (!fs.existsSync(filepath)) {
+      fs.writeFileSync(filepath, '[]')
+    }
+    fs.rename(filepath, `${filepath}.swp`, function (err) {
+      if (err) return callback(err)
+      fs.writeFile(filepath, content, function (err) {
+        if (err) return callback(err)
+        fs.unlink(`${filepath}.swp`, callback)
+      })
+    })
+  }
+
+  FileSystemAdaptor.prototype.readTiddlerFile = function (filePath, callback) {
+    // STEP 1: read the data of tid file.
+    fs.readFile(filePath, function (err, data) {
+      if (err) return callback(err)
+
+      // STEP 2: Parse the data into Object
+      const fields = {}
+      const kvPattern = /^(?<key>\w+):\s*(?<val>.+)$/
+      const lines = data.split('\n')
+      lines.forEach((line) => {
+        if (typeof fields.text === 'undefined') {
+          if (line.trim() === '') {
+            fields.text = ''
+          } else {
+            const m = kvPattern.exec(line.trim())
+            fields[m.groups.key] = m.groups.val
+          }
+        } else {
+          fields.text += line
+        }
+      })
+      callback(null, fields)
+    })
   }
 
   FileSystemAdaptor.prototype.shouldSaveInCache = function (tiddler) {
