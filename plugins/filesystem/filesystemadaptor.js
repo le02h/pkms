@@ -14,12 +14,12 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
   // Get a reference to the file system
   const fs = $tw.node ? require('fs') : null
   const path = $tw.node ? require('path') : null
+  const cache = {}
 
   function FileSystemAdaptor (options) {
     this.wiki = options.wiki
     this.boot = options.boot || $tw.boot
     this.logger = new $tw.utils.Logger('filesystem', { colour: 'blue' })
-    this.cache = {}
     // Create the <wiki>/tiddlers folder if it doesn't exist
     $tw.utils.createDirectory(this.boot.wikiTiddlersPath)
   }
@@ -69,48 +69,57 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
    * Save a tiddler and invoke the callback with (err,adaptorInfo,revision)
    */
   FileSystemAdaptor.prototype.saveTiddler = function (tiddler, callback, options) {
-    const self = this
     const title = tiddler.fields.title
     if (this.shouldSaveInCache(tiddler)) {
-      this.cache[title] = tiddler.fields
+      cache[title] = tiddler.fields
       callback(null)
+    } else if (this.wiki.isSystemTiddler(title)) {
+      this.saveSystemTiddler(tiddler, callback)
     } else {
-      const fileInfo = this.boot.files[title]
-      this.saveTiddlerToFile(tiddler, options, function (err, newFileInfo) {
-        if (err) return callback(err)
-
-        if (fileInfo) {
-          if (/system.json$/.test(fileInfo.filepath)) {
-            self.updateSystemJson(newFileInfo, function (err) {
-              callback(err, fileInfo)
-            })
-          }
-        }
-      })
+      this.saveTiddlerToFile(tiddler, options, callback)
     }
   }
 
-  FileSystemAdaptor.prototype.updateSystemJson = function (fileInfo, callback) {
-    const filepath = path.resolve(this.boot.wikiTiddlersPath, 'system.json')
-
-    this.readTiddlerFile(fileInfo.filepath, function (err, fields) {
-      if (err) return callback(err)
-      const tiddlers = fs.existsSync(filepath) ? JSON.parse(fs.readFileSync(filepath)) : []
-      const index = tiddlers.findIndex(el => el.title === fields.title)
-      if (index === -1) {
-        tiddlers.push(fields)
+  FileSystemAdaptor.prototype.saveSystemTiddler = function (tiddler, callback) {
+    const title = tiddler.fields.title
+    const fileInfo = this.boot.files[title]
+    if (fileInfo) {
+      if (/system\.json$/.test(fileInfo.filepath)) {
+        this.saveTiddlerToSystemJson('update', tiddler, callback)
       } else {
-        tiddlers[index] = fields
+        // Save to individual file
       }
-      console.log(fileInfo)
-      const content = '[' + tiddlers.map(t => JSON.stringify(t, null, 2)).join(', ') + ']'
-      this.writeToFile(filepath, content, function (err) {
-        if (!err) fs.unlinkSync(fileInfo.filepath)
+    } else {
+      this.saveTiddlerToSystemJson('new', tiddler, callback)
+    }
+  }
 
-        callback(err, {
-          filepath,
-          hasMetaFile: false
-        })
+  FileSystemAdaptor.prototype.saveTiddlerToSystemJson = function (op, tiddler, callback) {
+    const isNewTiddler = op === 'new'
+    const filepath = path.resolve(this.boot.wikiTiddlersPath, 'system.json')
+    const tiddlers = fs.existsSync(filepath) ? JSON.parse(fs.readFileSync(filepath, 'utf-8')) : []
+    const fields = {}
+    const exclude = ['creator', 'created', 'modifier', 'modified', '__new']
+    for (const k in tiddler.fields) {
+      if (!exclude.includes(k)) {
+        fields[k] = tiddler.fields[k]
+      }
+    }
+
+    if (isNewTiddler) {
+      tiddlers.push(fields)
+      delete tiddler.new
+    } else {
+      const index = tiddlers.findIndex(fields => fields.title === tiddler.fields.title)
+      tiddlers[index] = fields
+    }
+
+    const content = '[' + tiddlers.map(v => JSON.stringify(v, null, 2)).join(', ') + ']'
+    this.writeToFile(filepath, content, (err) => {
+      callback(err, {
+        filepath,
+        hasMetaFile: false,
+        type: fields.type
       })
     })
   }
@@ -125,31 +134,6 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
         if (err) return callback(err)
         fs.unlink(`${filepath}.swp`, callback)
       })
-    })
-  }
-
-  FileSystemAdaptor.prototype.readTiddlerFile = function (filePath, callback) {
-    // STEP 1: read the data of tid file.
-    fs.readFile(filePath, function (err, data) {
-      if (err) return callback(err)
-
-      // STEP 2: Parse the data into Object
-      const fields = {}
-      const kvPattern = /^(?<key>\w+):\s*(?<val>.+)$/
-      const lines = data.split('\n')
-      lines.forEach((line) => {
-        if (typeof fields.text === 'undefined') {
-          if (line.trim() === '') {
-            fields.text = ''
-          } else {
-            const m = kvPattern.exec(line.trim())
-            fields[m.groups.key] = m.groups.val
-          }
-        } else {
-          fields.text += line
-        }
-      })
-      callback(null, fields)
     })
   }
 
