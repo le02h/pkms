@@ -52,9 +52,9 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
    * It is the responsibility of the filesystem adaptor to update this.boot.files for new files that are created.
    */
   FileSystemAdaptor.prototype.getTiddlerFileInfo = function (tiddler, callback) {
-    // Always generate a fileInfo object when this fuction is called
+    const title = tiddler.fields.title
     const filters = title => this.wiki.tiddlerExists(title) ? this.wiki.getTiddlerText(title, '').split('\n') : []
-    const fileInfo = this.boot.files[tiddler.fields.title]
+    const fileInfo = this.boot.files[title]
     const newInfo = $tw.utils.generateTiddlerFileInfo(tiddler, {
       directory: this.boot.wikiTiddlersPath,
       pathFilters: filters('$:/config/FileSystemPaths'),
@@ -62,6 +62,9 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
       wiki: this.wiki,
       fileInfo
     })
+    if (fileInfo && this.wiki.isSystemTiddler(title)) {
+      newInfo.filepath = fileInfo.filepath
+    }
     callback(null, newInfo)
   }
 
@@ -74,20 +77,20 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
       cache[title] = tiddler.fields
       callback(null)
     } else if (this.wiki.isSystemTiddler(title)) {
-      this.saveSystemTiddler(tiddler, callback)
+      this.saveSystemTiddler(tiddler, options, callback)
     } else {
       this.saveTiddlerToFile(tiddler, options, callback)
     }
   }
 
-  FileSystemAdaptor.prototype.saveSystemTiddler = function (tiddler, callback) {
+  FileSystemAdaptor.prototype.saveSystemTiddler = function (tiddler, options, callback) {
     const title = tiddler.fields.title
     const fileInfo = this.boot.files[title]
     if (fileInfo) {
       if (/system\.json$/.test(fileInfo.filepath)) {
         this.saveTiddlerToSystemJson('update', tiddler, callback)
       } else {
-        // Save to individual file
+        this.saveTiddlerToFile(tiddler, options, callback)
       }
     } else {
       this.saveTiddlerToSystemJson('new', tiddler, callback)
@@ -95,7 +98,6 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
   }
 
   FileSystemAdaptor.prototype.saveTiddlerToSystemJson = function (op, tiddler, callback) {
-    const isNewTiddler = op === 'new'
     const filepath = path.resolve(this.boot.wikiTiddlersPath, 'system.json')
     const tiddlers = fs.existsSync(filepath) ? JSON.parse(fs.readFileSync(filepath, 'utf-8')) : []
     const fields = {}
@@ -106,7 +108,7 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
       }
     }
 
-    if (isNewTiddler) {
+    if (op == 'new') {
       tiddlers.push(fields)
       delete tiddler.new
     } else {
