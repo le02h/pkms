@@ -1,26 +1,26 @@
 {
-  "name": "notes",
+  "name": "pkms",
   "version": "1.1.0",
   "description": "这是我的知识仓库！使用 TiddlyWiki 5 作为基础。",
   "main": "src/index.js",
   "bin": {
-    "tw5-srv": "src/index.js"
+    "pkms": "src/index.js"
   },
   "scripts": {
     "tw5": "tiddlywiki",
-    "build:PL": "tiddlywiki data/PL --build static",
     "lint": "eslint",
-    "listen": "tiddlywiki tmp --listen",
+    "listen": "tiddlywiki exp --listen",
+    "build:PL": "tiddlywiki data/PL --build static",
+    "extract-plugin": "node src/index.js extract-plugin",
     "start": "node src/index.js serve data"
   },
-  "keywords": [],
+  "keywords": ["pkms"],
   "author": "Holmes Conan",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
     "hbs": "^4.2.0",
     "morgan": "^1.10.0",
-    "nedb": "^1.8.0",
     "tiddlywiki": "^5.3.1",
     "yargs": "^17.7.2"
   },
