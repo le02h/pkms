@@ -59,12 +59,7 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
     $tw.utils.each(tiddler.fields, (field, name) => {
       if (!exclude.includes(name)) {
         const value = tiddler.getFieldString(name)
-        if (knownFields.includes(name)) {
-          fields[name] = value
-        } else {
-          fields.fields = fields.fields || {}
-          fields.fields[name] = value
-        }
+        fields[name] = value
       }
     })
     if (fields.revision) delete fields.revision
