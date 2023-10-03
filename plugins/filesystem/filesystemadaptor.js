@@ -15,6 +15,11 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
   const fs = $tw.node ? require('fs') : null
   const path = $tw.node ? require('path') : null
   const cache = {}
+  const knownFields = [
+    'bag', 'created', 'creator', 'modified', 'modifier', 'permissions',
+    'recipe', 'revision', 'tags', 'text', 'title', 'type', 'uri'
+
+  ]
 
   function FileSystemAdaptor (options) {
     this.wiki = options.wiki
@@ -78,37 +83,67 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
       callback(null)
     } else if (this.wiki.isSystemTiddler(title)) {
       this.saveSystemTiddler(tiddler, options, callback)
-    } else {
+    } else if (/^image\/.*$/.test(tiddler.fields.type)) {
       this.saveTiddlerToFile(tiddler, options, callback)
+    } else {
+      this.saveDataTiddler(tiddler, options, callback)
     }
+  }
+
+  FileSystemAdaptor.prototype.saveDataTiddler = function (tiddler, options, callback) {
+    const title = tiddler.fields.title
+    const fileInfo = this.boot.files[title]
+    const filename = this.wiki.getTiddlerText('$:/config/DataFileName', 'data.json')
+    this.saveTiddlerToDataJson(tiddler, {
+      isNewTiddler: !!fileInfo,
+      filename,
+      fileInfo
+    }, callback)
   }
 
   FileSystemAdaptor.prototype.saveSystemTiddler = function (tiddler, options, callback) {
     const title = tiddler.fields.title
     const fileInfo = this.boot.files[title]
     if (fileInfo) {
-      if (/system\.json$/.test(fileInfo.filepath)) {
-        this.saveTiddlerToSystemJson('update', tiddler, callback)
+      if (path.basename(fileInfo.filepath) === 'system.json') {
+        this.saveTiddlerToSystemJson(tiddler, { isNewTiddler: false }, callback)
       } else {
         this.saveTiddlerToFile(tiddler, options, callback)
       }
     } else {
-      this.saveTiddlerToSystemJson('new', tiddler, callback)
+      this.saveTiddlerToSystemJson(tiddler, { isNewTiddler: true }, callback)
     }
   }
 
-  FileSystemAdaptor.prototype.saveTiddlerToSystemJson = function (op, tiddler, callback) {
+  FileSystemAdaptor.prototype.saveTiddlerToSystemJson = function (tiddler, options, callback) {
     const filepath = path.resolve(this.boot.wikiTiddlersPath, 'system.json')
     const tiddlers = fs.existsSync(filepath) ? JSON.parse(fs.readFileSync(filepath, 'utf-8')) : []
-    const fields = {}
     const exclude = ['creator', 'created', 'modifier', 'modified', '__new']
-    for (const k in tiddler.fields) {
-      if (!exclude.includes(k)) {
-        fields[k] = tiddler.fields[k]
-      }
+    const fields = this.serializeTiddlerFields(tiddler, exclude)
+    if (options.isNewTiddler) {
+      tiddlers.push(fields)
+    } else {
+      const index = tiddlers.findIndex(t => t.title === fields.title)
+      tiddlers[index] = fields
     }
 
-    if (op == 'new') {
+    const content = '[' + tiddlers.map(v => JSON.stringify(v, null, 2)).join(', ') + ']'
+    this.writeToJsonFile(filepath, content, (err) => {
+      const fileInfo = {
+        filepath,
+        hasMetaFile: false,
+        type: fields.type
+      }
+      this.boot.files[fields.title] = fileInfo
+      callback(err, fileInfo)
+    })
+  }
+
+  FileSystemAdaptor.prototype.saveTiddlerToDataJson = function (tiddler, options, callback) {
+    const filepath = path.resolve(this.boot.wikiTiddlersPath, options.filename)
+    const tiddlers = fs.existsSync(filepath) ? JSON.parse(fs.readFileSync(filepath, 'utf-8')) : []
+    const fields = this.serializeTiddlerFields(tiddler)
+    if (options.isNewTiddler) {
       tiddlers.push(fields)
       delete tiddler.new
     } else {
@@ -116,8 +151,8 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
       tiddlers[index] = fields
     }
 
-    const content = '[' + tiddlers.map(v => JSON.stringify(v, null, 2)).join(', ') + ']'
-    this.writeToFile(filepath, content, (err) => {
+    const content = '[\n' + tiddlers.map(JSON.stringify).join(',\n') + '\n]'
+    this.writeToJsonFile(filepath, content, (err) => {
       callback(err, {
         filepath,
         hasMetaFile: false,
@@ -126,7 +161,7 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
     })
   }
 
-  FileSystemAdaptor.prototype.writeToFile = function (filepath, content, callback) {
+  FileSystemAdaptor.prototype.writeToJsonFile = function (filepath, content, callback) {
     if (!fs.existsSync(filepath)) {
       fs.writeFileSync(filepath, '[]')
     }
@@ -137,6 +172,24 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
         fs.unlink(`${filepath}.swp`, callback)
       })
     })
+  }
+
+  FileSystemAdaptor.prototype.serializeTiddlerFields = function (tiddler, exclude) {
+    exclude = exclude || []
+    const fields = {}
+    $tw.utils.each(tiddler.fields, (field, name) => {
+      if (!exclude.includes(name)) {
+        const value = tiddler.getFieldString(name)
+        if (knownFields.includes(name)) {
+          fields[name] = value
+        } else {
+          fields.fields = fields.fields || {}
+          fields.fields[name] = value
+        }
+      }
+    })
+    if (fields.revision) delete fields.revision
+    return fields
   }
 
   FileSystemAdaptor.prototype.shouldSaveInCache = function (tiddler) {
