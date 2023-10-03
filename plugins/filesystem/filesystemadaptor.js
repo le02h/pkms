@@ -170,9 +170,8 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
     const fileInfo = this.boot.files[title]
     const filename = this.getDataJsonFileName()
     this.saveTiddlerToDataJson(tiddler, {
-      isNewTiddler: !!fileInfo,
-      filename,
-      fileInfo
+      isNewTiddler: (typeof fileInfo === 'undefined'),
+      filename
     }, callback)
   }
 
@@ -182,7 +181,6 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
     const fields = this.serializeTiddlerFields(tiddler)
     if (options.isNewTiddler) {
       tiddlers.push(fields)
-      delete tiddler.new
     } else {
       const index = tiddlers.findIndex(t => t.title === fields.title)
       tiddlers[index] = fields
@@ -290,7 +288,7 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
       if (path.basename(fileInfo.filepath) === filename) {
         const filepath = fileInfo.filepath
         const tiddlers = (fs.existsSync(filepath) ? JSON.parse(fs.readFileSync(filepath, 'utf-8')) : []).filter(t => t.title !== title)
-        this.writeToJsonFile(fileInfo, tiddlers, (err) => {
+        this.writeToJsonFile(filepath, tiddlers, (err) => {
           if (err) return callback(err)
           delete this.boot.files[title]
           callback(null, fileInfo)
@@ -338,7 +336,7 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
     if (path.basename(filepath) === 'system.json') {
       content = '[' + tiddlers.map(v => JSON.stringify(v, null, 2)).join(', ') + ']'
     } else {
-      content = '[\n' + tiddlers.map(JSON.stringify).join(',\n') + '\n]'
+      content = '[\n' + tiddlers.map(v => JSON.stringify(v)).join(',\n') + '\n]'
     }
 
     if (!fs.existsSync(filepath)) {
