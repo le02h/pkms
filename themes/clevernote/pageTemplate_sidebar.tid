@@ -1,8 +1,9 @@
-created: 20190406155850870
 title: $:/themes/tesseract/clevernote/pageTemplate/sidebar
-modified: 20190409120811469
+type: text/vnd.tiddlywiki
 tags: $:/tags/Clevernote/PageTemplate
 list: $:/themes/tesseract/clevernote/logo-container $:/themes/tesseract/clevernote/pagecontrol-container $:/themes/tesseract/clevernote/tabs-container
+created: 20190406155850870
+modified: 20190409120811469
 
 <div class="sidebar bar-left">
 <div class="sidebar-inner">

@@ -1,28 +1,33 @@
-created: 20190408072918934
 title: $:/themes/tesseract/clevernote/pageTemplate/media/bottombar-view
+type: text/vnd.tiddlywiki
 tags: $:/tags/MobilePageTemplate
+created: 20190408072918934
 modified: 20190425162710928
 
 \define pagecontrol-config-title()
 $:/config/ViewToolbarButtons/Visibility/Media/$(listItem)$
 \end
+
 <$reveal state="$:/state/sidebar" type="match" text="no" default="no">
 <div class="bottombarcontainer">
 <div class="bottombar">
+
 <$list filter="[all[shadows+tiddlers]tag[$:/tags/ViewToolbar]!has[draft.of]]" variable="listItem">
-						<$reveal type="match" state=<<pagecontrol-config-title>> text="show">
-							<$set name="tv-config-toolbar-class" value="zaah-btn-square">
+<$reveal type="match" state=<<pagecontrol-config-title>> text="show">
+<$set name="tv-config-toolbar-class" value="zaah-btn-square">
 <$list filter="[list[$:/StoryList]limit[1]]">
-							<$transclude tiddler=<<listItem>> mode="inline"/>
-							</$list>
+<$transclude tiddler=<<listItem>> mode="inline"/>
+</$list>
 </$set>
 </$reveal>
 </$list>
+
 <$set name="tv-config-toolbar-class" value="zaah-btn-square">
 <$list filter="[list[$:/StoryList]limit[1]]">
 <$button class="zaah-btn-square" message="tm-copy-to-clipboard" param={{!!text}}> {{$:/core/images/copy-clipboard}} </$button>
 </$list>
 <$transclude tiddler="$:/themes/tesseract/clevernote/buttons/searchbarToggle" mode="inline"/>
 </$set>
+
 </div></div>
 </$reveal>

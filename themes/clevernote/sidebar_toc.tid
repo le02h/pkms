@@ -1,15 +1,18 @@
-created: 20171203062210061
 title: $:/themes/tesseract/clevernote/sidebar/toc
+type: text/vnd.tiddlywiki
 tags: $:/tags/SideBar
+created: 20171203062210061
 modified: 20190408070634017
 icon: $:/core/images/anchor
-caption: Contents
+caption: {{$:/SiteTitle}}
 
 \define toc-actions()
 <$action-setfield $tiddler="$:/state/sidebar" text="no"/>
 <$action-navigate $to=<<navigateTo>>>
 \end
+
 <div class="tc-sidebar">
+
 <$reveal state="$:/info/browser/screen/width" type="lteq" text="1000">
 <$linkcatcher actions=<<toc-actions>>>
 <<toc-selective-expandable 'TableOfContents'>>

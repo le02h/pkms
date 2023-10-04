@@ -1,5 +1,6 @@
-created: 20171209032805603
 title: $:/themes/tesseract/clevernote/buttons/searchbarToggle
+type: text/vnd.tiddlywiki
+created: 20171209032805603
 modified: 20190409120052827
 
 <$button class="zaah-btn-square">{{$:/core/images/advanced-search-button}}

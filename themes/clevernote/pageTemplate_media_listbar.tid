@@ -1,13 +1,16 @@
-created: 20171208063100705
 title: $:/themes/tesseract/clevernote/pageTemplate/media/listbar
+type: text/vnd.tiddlywiki
 tags: $:/tags/MobilePageTemplate
+created: 20171208063100705
 modified: 20190409120328841
 
 <$reveal state="$:/state/sidebar" type="match" text="yes" retain="yes">
 <div class="zaah-listbar-container-mobile">
-	<$tiddler tiddler={{$:/state/tab/sidebar}}>
-	<div class="inline21caps"><$transclude field="caption"/></div>
-	{{!!text}}
-	</$tiddler>
+
+<$tiddler tiddler={{$:/state/tab/sidebar}}>
+<div class="inline21caps"><$transclude field="caption"/></div>
+{{!!text}}
+</$tiddler>
+
 </div>
 </$reveal>

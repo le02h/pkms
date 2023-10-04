@@ -1,26 +1,21 @@
-created: 20171204142539661
 title: $:/themes/tesseract/clevernote/ui/searchbox
+type: text/vnd.tiddlywiki
 tags: $:/tags/TopRightBar
+created: 20171204142539661
 modified: 20190409114824110
 
 <$set name="searchTiddler" value="$:/temp/search">
 <div class="tc-search" style="display: inline;">
 <$edit-text tiddler="$:/temp/search" type="search" tag="input" focus={{$:/config/Search/AutoFocus}} focusPopup=<<qualify "$:/state/popup/search-dropdown">> class="tc-popup-handle searchboxcontainer"/>
-
 </div>
 
 <$reveal tag="div" class="tc-block-dropdown-wrapper" state="$:/temp/search" type="nomatch" text="">
-
 <$reveal tag="div" class="tc-block-dropdown tc-search-drop-down tc-popup-handle" state=<<qualify "$:/state/popup/search-dropdown">> type="nomatch" text="" default="" style="right: -20px;">
 
 <$list filter="[{$:/temp/search}minlength{$:/config/Search/MinLength}limit[1]]" emptyMessage="""<div class="tc-search-results">{{$:/language/Search/Search/TooShort}}</div>""" variable="listItem">
-
 {{$:/core/ui/SearchResults}}
-
 </$list>
 
 </$reveal>
-
 </$reveal>
-
 </$set>

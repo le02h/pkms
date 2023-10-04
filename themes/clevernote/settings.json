@@ -1,0 +1,25 @@
+[{
+  "title": "$:/config/PageControlButtons/Visibility/$:/core/ui/SideBar/Open",
+  "type": "text/vnd.tiddlywiki",
+  "text": "hide"
+}, {
+  "title": "$:/config/PageControlButtons/Visibility/$:/core/ui/SideBar/Recent",
+  "type": "text/vnd.tiddlywiki",
+  "text": "hide"
+}, {
+  "title": "$:/config/PageControlButtons/Visibility/$:/core/ui/SideBar/Tools",
+  "type": "text/vnd.tiddlywiki",
+  "text": "hide"
+}, {
+  "title": "$:/config/PageControlButtons/Visibility/$:/core/ui/SideBar/More",
+  "type": "text/vnd.tiddlywiki",
+  "text": "hide"
+}, {
+  "title": "$:/state/tab/sidebar",
+  "type": "text/vnd.tiddlywiki",
+  "text": "$:/themes/tesseract/clevernote/sidebar/toc"
+}, {
+  "title": "$:/state/sidebar",
+  "type": "text/vnd.tiddlywiki",
+  "text": "no"
+}]

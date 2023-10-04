@@ -1,16 +1,17 @@
-created: 20190406170232820
 title: $:/themes/tesseract/clevernote/pagecontrol-container
-modified: 20190408062603943
+type: text/vnd.tiddlywiki
 tags: $:/tags/clevernote/sidebar
+created: 20190406170232820
+modified: 20190408062603943
 
 \define config-title()
 $:/config/PageControlButtons/Visibility/$(listItem)$
 \end
 
 <div class="clev-pagecontrol-container">
-		<$list filter="[all[shadows+tiddlers]tag[$:/tags/PageControls]!has[draft.of]]" variable="listItem">
-						<$reveal type="nomatch" state=<<config-title>> text="hide">
-							
+<$list filter="[all[shadows+tiddlers]tag[$:/tags/PageControls]!has[draft.of]]" variable="listItem">
+<$reveal type="nomatch" state=<<config-title>> text="hide">
+
 <div class="clev-pagecontrol-button-container-level1">
 <div class="clev-pagecontrol-button-container-level2">
 <div class="clev-pagecontrol-button-container-level3">
@@ -22,7 +23,7 @@ $:/config/PageControlButtons/Visibility/$(listItem)$
 </div>
 </div>
 </div>
-                                                  
-						</$reveal>
-			</$list>
+
+</$reveal>
+</$list>
 </div>

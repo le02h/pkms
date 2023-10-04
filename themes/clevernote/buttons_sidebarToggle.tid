@@ -1,6 +1,7 @@
-created: 20171208042757688
 title: $:/themes/tesseract/clevernote/buttons/sidebarToggle
+type: text/vnd.tiddlywiki
 tags: $:/tags/MobilePageTemplate
+created: 20171208042757688
 modified: 20190409120030998
 
 <div class="switch-container">
@@ -14,5 +15,6 @@ modified: 20190409120030998
 <$action-setfield $tiddler="$:/state/sidebar" $value="yes"/>
 </$reveal>
 </$button>
+
 </div>
 </div>

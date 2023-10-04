@@ -1,9 +1,10 @@
-created: 20190407160741071
 title: $:/themes/tesseract/clevernote/sidebar/open
+type: text/vnd.tiddlywiki
 tags: $:/tags/SideBar
-modified: 20190409115922706
-icon: $:/core/images/open
 caption: {{$:/language/SideBar/Open/Caption}}
+icon: $:/core/images/open
+created: 20190407160741071
+modified: 20190409115922706
 
 \whitespace trim
 \define lingo-base() $:/language/CloseAll/
