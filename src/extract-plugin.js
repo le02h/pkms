@@ -1,21 +1,9 @@
 const fs = require('fs')
 const path = require('path')
 
-function availableFilename (dstPath, name) {
-  let filename = path.resolve(dstPath, name + '.tid')
-  if (fs.existsSync(filename)) {
-    for (let i = 1; i < 10; i++) {
-      filename = path.resolve(dstPath, `${name}-${i}.tid`)
-      if (!fs.existsSync(filename)) {
-        return filename
-      }
-    }
-  }
-  return filename
-}
 
-function readJson(filename) {
-  return JSON.parse(fs.readFileSync(filename))
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
 }
 
 function readTiddler(filename) {
@@ -42,13 +30,36 @@ function readTiddler(filename) {
   }
 }
 
-function writeJson(filename, data) {
-  fs.writeFile(filename, JSON.stringify(data, null, 2), function (err) {
-    if (err) console.error(`Error writing ${filename}: ${err}`)
+/**
+ * 
+ * @param {String} dstPath 
+ * @param {String} title 
+ * @param {Object} meta 
+ */
+function tiddlerFileName(dstPath, title, meta) {
+  let filename
+  if (title.indexOf(meta.title) === 0) {
+    filename = title.from(meta.title.length)
+
+  } else {
+    filename = title.replace('$:/', '')
+  }
+  filename = filename.replace('/', '_')
+  return path.join(dstPath, filename + '.tid')
+}
+
+function writeTiddlers(dstPath, tiddlers, meta) {
+  Object.values(tiddlers).forEach(fields => {
+    let content = Object.entries(fields).map(([k, v]) => k === 'text' ? '' : `${k}: ${v}`).join('\n')
+    content = `${content}\n\n${tiddler.text}`
+
+    const filePath = tiddlerFilePath(dstPath, fields.title, meta)
+    fs.writeFileSync(filePath, content)
   })
 }
 
 function writePlginInfo(dstPath, meta) {
+  const knownFields = []
   const info = {}
   const exclude = ['created', 'modified', 'type', 'text']
   Object.keys(meta).forEach(key => {
@@ -56,50 +67,34 @@ function writePlginInfo(dstPath, meta) {
       info[key] = meta[key]
     }
   })
-  writeJson(path.join(dstPath, 'plugin.info'), info)
-}
-
-function writeTiddlers(dstPath, tiddlers) {
-  Object.values(tiddlers).forEach(tiddler => {
-    const name = path.basename(tiddler.title)
-
-    let text = Object.keys(tiddler).map(k => {
-      const v = tiddler[k]
-      return k === 'text' ? '' : `${k}: ${v}`
-    }).join('\n')
-    text += `\n\n${tiddler.text}`
-
-    const tid_filename = availableFilename(dstPath, name)
-    fs.writeFile(tid_filename, text, function (err) {
-      if (err) console.error(err)
-    })
-  })
+  const filePath = path.join(dstPath, 'plugin.info')
+  fs.writeFileSync(filePath, JSON.stringify(info, null, 2))
 }
 
 function handler (argv) {
-  const srcPath = path.resolve(__dirname, '../tmp/tiddlers')
-  const dstPath = path.resolve(argv.targetPath)
+  const srcPath = path.resolve(__dirname, '../exp/tiddlers')
+  const dstPath = path.resolve(argv.pluginPath)
   const data = readJson(path.resolve(srcPath, argv.pluginName) + '.json')
 
   if (data.tiddlers) {
     const meta = readTiddler(path.resolve(srcPath, argv.pluginName) + '.json.meta')
     writePluginInfo(dstPath, meta)
-    writeTiddlers(dstPath, data.tiddlers)
-  } else if (data[0] && data[0].title) {
+    writeTiddlers(dstPath, data.tiddlers, meta)
+  } else {
     const tiddlers = JSON.parse(data[0].text).tiddlers
     writePlginInfo(dstPath, data[0])
-    writeTiddlers(dstPath, tiddlers)
+    writeTiddlers(dstPath, tiddlers, data[0])
   }
 }
 
 module.exports = {
-  command: 'extract-plugin <plugin-name> <target-path>',
+  command: 'extract-plugin <plugin-name> <plugin-path>',
   describe: 'extract plugin from JSON',
   builder: (yargs) => {
     yargs.positional('plugin-name', {
       describe: 'the plugin name',
       type: 'string'
-    }).positional('target-path', {
+    }).positional('plugin-path', {
       describe: 'the target path to save plugin',
       type: 'string'
     })
