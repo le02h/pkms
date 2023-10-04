@@ -1,8 +1,0 @@
-title: $:/themes/nico/notebook/shortcuts/notebook-focus-search
-created: 20201210122048919
-key: ((notebook-focus-search))
-modified: 20210115130024907
-tags: $:/tags/KeyboardShortcut
-type: text/vnd.tiddlywiki
-
-<$action-sendmessage $message="tm-focus-selector" $param=".nc-topbar input"/>

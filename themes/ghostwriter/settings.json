@@ -1,0 +1,18 @@
+[{
+  "title": "$:/state/sidebar",
+  "text": "no"
+}, {
+  "title": "$:/themes/ghostwriter/transparencystate",
+  "type": "text/vnd.tiddlywiki",
+  "tags": "$:/irreverent-mudblood/ghostwriter",
+  "text": "close"
+}, {
+  "title": "$:/DefaultTiddlers",
+  "type": "text/vnd.tiddlywiki",
+  "text": "[!is[system]![TableOfContents]!sort[modified]limit[3]]"
+}, {
+  "title": "$:/config/AnimationDuration",
+  "type": "text/vnd.tiddlywiki",
+  "tags": "$:/irreverent-mudblood/ghostwriter",
+  "text": "600"
+}]

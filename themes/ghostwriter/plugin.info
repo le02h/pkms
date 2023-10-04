@@ -1,0 +1,10 @@
+{
+  "title": "$:/plugins/venomspinner/ghostwriter"
+, "name": "Ghostwriter"
+, "plugin-type": "theme"
+, "author": "Venomspinner"
+, "description": "A minimalist, mobile responsive theme for blogging"
+, "dependents": "$:/themes/tiddlywiki/vanilla"
+, "source": "https://ibnishak.github.io/irreverent-mudblood/"
+, "version": "1.0.9"
+}

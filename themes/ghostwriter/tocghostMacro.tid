@@ -1,10 +1,9 @@
-type: text/vnd.tiddlywiki
 title: $:/themes/ghostwriter/tocghostMacro
+type: text/vnd.tiddlywiki
 tags: $:/tags/Macro $:/irreverent-mudblood/ghostwriter
-revision: 0
+bag: default
 modified: 20161110084617042
 created: 20161031140339462
-bag: default
 
 \define tocghost-caption()
 <$set name="tv-wikilinks" value="no">
