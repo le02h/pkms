@@ -10,18 +10,19 @@ function readTiddler(filename) {
   const fields = {}
   const text = fs.readFileSync(filename, 'utf-8')
   text.split('\n').forEach(line => {
-    const m = /^(?<key>\w+):\s*(?<value>.+)/.exec(line.trim())
-    if (m) {
-      const { key, value } = m.groups
-      if (key === 'dependents') {
-        fields[key] = value.split(' ')
+    if (typeof fields.text === 'undefined') {
+      if (line.trim() === '') {
+        fields.text = ''
       } else {
-        fields[key] = value
+        const index = line.indexOf(':')
+        const key = line.substr(0, index)
+        const val = line.substr(index+1).trim()
+        if (val) {
+          fields[key] = val
+        }
       }
-    } else if (fields.text) {
-      fields.text += '\n' + line
-    } else if (line.trim() === '') {
-      fields.text = '\n'
+    } else {
+      fields.text = fields.text + line
     }
   })
   if (fields.text) {
@@ -76,13 +77,14 @@ function writeTiddlers(dstPath, tiddlers, meta) {
 function writePluginInfo(dstPath, meta) {
   const knownFields = [
     'title', 'name', 'plugin-type', 'core-version', 'author',
-    'description', 'dependents', 'version'
+    'description', 'dependents', 'source', 'list', 'version'
   ]
   let content = ''
   knownFields.forEach((key) => {
-    if (meta[key]) {
+    const value = meta[key]
+    if (value) {
       const prefix = content === '' ? '  ' : ', '
-      content += `${prefix}"${key}": ${JSON.stringify(meta[key])}\n`
+      content += `${prefix}"${key}": "${value}"\n`
     }
   })
   content = `{\n${content}}`
