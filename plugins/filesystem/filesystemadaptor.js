@@ -132,6 +132,8 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
       } else {
         this.saveTiddlerToFile(tiddler, options, callback)
       }
+    } else if (tiddler.fields.type === 'application/json') {
+      this.saveTiddlerToFile(tiddler, options, callback)
     } else {
       this.saveTiddlerToSystemJson(tiddler, { isNewTiddler: true }, callback)
     }
