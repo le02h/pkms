@@ -1,0 +1,10 @@
+title: $:/core/ui/Actions/new-tiddler
+type: text/vnd.tiddlywiki
+tags: $:/tags/Actions
+description: create a new empty tiddler
+bag: default
+created: 20190408135345549
+modified: 20190425173745373
+
+<$action-setfield $tiddler="$:/state/sidebar" text="no"/>
+<$action-sendmessage $message="tm-new-tiddler"/>

@@ -1,0 +1,21 @@
+title: $:/themes/tesseract/clevernote/pageTemplate/media/sidebar
+type: text/vnd.tiddlywiki
+tags: $:/tags/MobilePageTemplate
+created: 20171207170503223
+modified: 20190409121340934
+
+\define sidebar-config-title()
+$:/config/sidebar/Visibility/$(currentTiddler)$
+\end
+
+<$reveal state="$:/state/sidebar" type="match" text="yes" animate="yes">
+
+<div class="mobile-sidebar">
+<div class="leftsidebarcontainer-mobile">
+<div class="leftsidebar-mobile">
+{{$:/themes/tesseract/clevernote/tabs-container}}
+</div>
+</div>
+</div>
+
+</$reveal>

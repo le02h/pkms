@@ -1,0 +1,51 @@
+title: $:/core/ui/PageTemplate
+type: text/vnd.tiddlywiki
+tags: single-tiddler-mode
+created: 20190407164058577
+modified: 20190408140732543
+
+\define containerClasses()
+tc-page-container tc-page-view-$(themeTitle)$ tc-language-$(languageTitle)$
+\end
+
+<$importvariables filter="[[$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[$:/tags/Macro]!has[draft.of]]">
+
+<$set name="tv-config-toolbar-icons" value={{$:/config/Toolbar/Icons}}>
+<$set name="tv-config-toolbar-text" value={{$:/config/Toolbar/Text}}>
+<$set name="tv-config-toolbar-class" value={{$:/config/Toolbar/ButtonClass}}>
+<$set name="themeTitle" value={{$:/view}}>
+<$set name="tv-storyview-single-tiddler-mode" value={{$:/plugins/Jermolene/single-tiddler-mode/toggle}}>
+<$set name="currentTiddler" value={{$:/language}}>
+<$set name="languageTitle" value={{!!name}}>
+<$set name="currentTiddler" value="">
+
+<div class=<<containerClasses>>>
+<$navigator story="$:/StoryList" history="$:/HistoryList" singleTiddlerMode=<<tv-storyview-single-tiddler-mode>> openLinkFromInsideRiver={{$:/config/Navigation/openLinkFromInsideRiver}} openLinkFromOutsideRiver={{$:/config/Navigation/openLinkFromOutsideRiver}} relinkOnRename={{$:/config/RelinkOnRename}}>
+<$dropzone>
+
+<$reveal state="$:/info/browser/screen/width" type="gt" text="1000">
+<$list filter="[all[shadows+tiddlers]tag[$:/tags/Clevernote/PageTemplate]!has[draft.of]] [[$:/core/ui/PageTemplate/topleftbar]] [[$:/core/ui/PageTemplate/alerts]] [[$:/core/ui/PageTemplate/drafts]] [[$:/core/ui/PageTemplate/pluginreloadwarning]]" variable="listItem">
+<$transclude tiddler=<<listItem>>/>
+</$list>
+</$reveal>
+
+<$reveal state="$:/info/browser/screen/width" type="lteq" text="1000">
+<$list filter="[all[shadows+tiddlers]tag[$:/tags/MobilePageTemplate]!has[draft.of]]" variable="listItem">
+<$transclude tiddler=<<listItem>>/>
+</$list>
+</$reveal>
+
+</$dropzone>
+</$navigator>
+</div>
+
+</$set>
+</$set>
+</$set>
+</$set>
+</$set>
+</$set>
+</$set>
+</$set>
+
+</$importvariables>

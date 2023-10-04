@@ -1,0 +1,30 @@
+title: $:/themes/tesseract/clevernote/pageTemplate/media/bottombar-page
+type: text/vnd.tiddlywiki
+tags: $:/tags/MobilePageTemplate
+created: 20171207133616205
+modified: 20190409120848076
+
+\define pagecontrol-config-title()
+$:/config/PageControlButtons/Visibility/$(listItem)$
+\end
+\define toc-actions()
+<$action-setfield $tiddler="$:/state/sidebar" text="no"/>
+<$action-navigate $to=<<navigateTo>>>
+\end
+
+<$reveal state="$:/state/sidebar" type="match" text="yes">
+<$linkcatcher actions=<<toc-actions>>>
+<div class="bottombarcontainer">
+<div class="bottombar">
+<$list filter="[all[shadows+tiddlers]tag[$:/tags/PageControls]!has[draft.of]]" variable="listItem">
+
+<$reveal type="nomatch" state=<<pagecontrol-config-title>> text="hide">
+<$set name="tv-config-toolbar-class" value="zaah-btn-square">
+<$transclude tiddler=<<listItem>> mode="inline"/>
+</$set>
+</$reveal>
+
+</$list>
+</div></div>
+</$linkcatcher>
+</$reveal>

@@ -1,0 +1,36 @@
+title: $:/themes/tesseract/clevernote/ui/searchbox
+type: text/vnd.tiddlywiki
+tags: $:/tags/TopRightBar
+created: 20171204142539661
+modified: 20190409114824110
+
+\define empty-msg-too-short()
+<div class="tc-search-results">{{$:/language/Search/Search/TooShort}}</div>
+\end
+
+\define search-result-list()
+\whitespace trim
+<$vars userInput={{$(searchTiddler)$}} configTiddler={{{ [[$:/state/search/currentTab]!is[missing]get[text]] ~[{$:/config/SearchResults/Default}] }}}>
+<$list filter="[<userInput>minlength{$:/config/Search/MinLength}limit[1]]" emptyMessage=<<empty-msg-too-short>> variable="listItem">
+<$tiddler tiddler=<<configTiddler>>>
+
+{{$:/core/ui/SearchResults}}
+
+</$tiddler>
+</$list>
+</$vars>
+\end
+
+<$set name="searchTiddler" value="$:/temp/search">
+<div class="tc-search" style="display: inline;">
+<$edit-text tiddler="$:/temp/search" type="search" tag="input" focus={{$:/config/Search/AutoFocus}} focusPopup=<<qualify "$:/state/popup/search-dropdown">> class="tc-popup-handle searchboxcontainer"/>
+</div>
+
+<$reveal tag="div" class="tc-block-dropdown-wrapper" state="$:/temp/search" type="nomatch" text="">
+<$reveal tag="div" class="tc-block-dropdown tc-search-drop-down tc-popup-handle" state=<<qualify "$:/state/popup/search-dropdown">> type="nomatch" text="" default="" style="right: -20px;">
+
+<<search-result-list>>
+
+</$reveal>
+</$reveal>
+</$set>

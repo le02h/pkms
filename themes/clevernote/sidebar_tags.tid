@@ -1,0 +1,13 @@
+title: $:/themes/tesseract/clevernote/sidebar/tags
+type: text/vnd.tiddlywiki
+tags: $:/tags/SideBar
+created: 20171204163223085
+modified: 20190408070326104
+icon: $:/core/images/tag-button
+caption: Tags
+
+<div class="tc-sidebar">
+<$list filter="[tags[]!prefix[$]] -[[TableOfContents]]">
+{{||$:/core/ui/TagTemplate}}
+</$list>
+</div>

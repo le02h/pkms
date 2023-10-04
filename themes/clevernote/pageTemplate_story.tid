@@ -1,0 +1,11 @@
+title: $:/themes/tesseract/clevernote/pageTemplate/story
+type: text/vnd.tiddlywiki
+tags: $:/tags/Clevernote/PageTemplate $:/tags/MobilePageTemplate
+created: 20171124062712718
+modified: 20190409114941740
+
+<div class="zaah-story-river">
+
+<$list filter="[list[$:/StoryList]]" history="$:/HistoryList" template="$:/core/ui/ViewTemplate" editTemplate="$:/core/ui/EditTemplate" storyview={{$:/view}} emptyMessage={{$:/config/EmptyStoryMessage}}/>
+
+</div>

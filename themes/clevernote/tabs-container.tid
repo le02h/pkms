@@ -1,0 +1,35 @@
+title: $:/themes/tesseract/clevernote/tabs-container
+type: text/vnd.tiddlywiki
+tags: $:/tags/clevernote/sidebar
+created: 20190406174349143
+modified: 20190408065803992
+
+\define config-title()
+$:/config/PageControlButtons/Visibility/$(listItem)$
+\end
+
+\define tab-icon()
+$(listItem)$-icon
+\end
+
+<div class="clev-pagecontrol-container">
+
+<$list filter="[all[shadows+tiddlers]tag[$:/tags/SideBar]!has[draft.of]]" variable="listItem">
+<$reveal type="nomatch" state=<<config-title>> text="hide">
+
+<div class="clev-pagecontrol-button-container-level1">
+<div class="clev-pagecontrol-button-container-level2">
+<div class="clev-pagecontrol-button-container-level3">
+<div class="clev-pagecontrol-button-container-level4">
+
+<div>
+<$button set="$:/state/tab/sidebar" setTo=<<listItem>> style="display:inline;">
+<$transclude tiddler=<<tab-icon>> mode="inline"/>
+</$button>
+</div>
+
+</div></div></div></div>                                                  
+
+</$reveal>
+</$list>
+</div>

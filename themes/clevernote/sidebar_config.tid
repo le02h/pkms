@@ -1,0 +1,11 @@
+title: $:/themes/tesseract/clevernote/sidebar/config
+type: text/vnd.tiddlywiki
+tags: $:/tags/ControlPanel/Settings
+created: 20190408072246946
+modified: 20190408072327201
+
+!! SIdebars
+
+<$list filter="[all[shadows+tiddlers]tag[$:/tags/SideBar]!has[draft.of]]">
+<div><$checkbox tag="$:/tags/SideBar">  {{!!title}} </$checkbox></div>
+</$list>

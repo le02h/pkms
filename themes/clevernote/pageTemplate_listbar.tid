@@ -1,0 +1,14 @@
+title: $:/themes/tesseract/clevernote/pageTemplate/listbar
+type: text/vnd.tiddlywiki
+tags: $:/tags/Clevernote/PageTemplate
+created: 20171124123958061
+modified: 20190409114904923
+
+<div class="zaah-listbar-container">
+<$tiddler tiddler={{$:/state/tab/sidebar}}>
+<div class="inline21caps">
+<$transclude field="caption"/>
+</div>
+{{!!text}}
+</$tiddler>
+</div>

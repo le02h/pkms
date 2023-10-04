@@ -1,0 +1,9 @@
+title: $:/themes/tesseract/clevernote/logo-container
+type: text/vnd.tiddlywiki
+tags: $:/tags/clevernote/sidebar
+created: 20190406164316002
+modified: 20190408063322184
+
+<div class="logo-container">
+{{$:/favicon.ico}}
+</div>

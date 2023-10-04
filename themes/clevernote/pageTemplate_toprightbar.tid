@@ -1,0 +1,14 @@
+title: $:/themes/tesseract/clevernote/pageTemplate/toprightbar
+type: text/vnd.tiddlywiki
+created: 19700101000000000
+modified: 20190409115458704
+
+<span class="tc-topbar tc-topbar-right">
+<$set name="tv-config-toolbar-class" value="zaah-btn-square">
+<$list filter="[all[shadows+tiddlers]tag[$:/tags/TopRightBar]!has[draft.of]]" variable="listItem">
+
+<$transclude tiddler=<<listItem>> mode="inline"/>
+
+</$list>
+</$set>
+</span>

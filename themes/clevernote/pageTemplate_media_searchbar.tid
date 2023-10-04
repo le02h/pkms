@@ -1,0 +1,58 @@
+title: $:/themes/tesseract/clevernote/pageTemplate/media/searchbar
+type: text/vnd.tiddlywiki
+tags: $:/tags/MobilePageTemplate
+created: 20171209044039555
+modified: 20190426052911986
+
+\define searchresults()
+<$action-navigate $to=<<navigateTo>>/>
+<$action-setfield $tiddler="$:/state/mobile-searchbar" $value="no"/>
+\end
+
+\define empty-search()
+<div class="tc-search-results">{{$:/language/Search/Search/TooShort}}</div>
+\end
+
+<$reveal state="$:/state/sidebar" type="match" text="no">
+<$reveal state="$:/state/mobile-searchbar" type="match" text="yes">
+<div class="searchbar-container">
+
+<div class="searchbar">
+<$edit-text tiddler="$:/temp/search" type="search" tag="input" placeholder={{$:/language/Search/Search}} class="jd-searchbar" focus="yes"/>
+</div>
+
+<$reveal state="$:/temp/search" type="nomatch" text="">
+<div class="searchresults-mobile">
+
+<div class="searchresultbuttons">
+
+<$button tooltip={{$:/language/Buttons/AdvancedSearch/Hint}} aria-label={{$:/language/Buttons/AdvancedSearch/Caption}} class="tc-btn-invisible">
+<$action-setfield $tiddler="$:/temp/advancedsearch" text={{$:/temp/search}}/>
+<$action-setfield $tiddler="$:/temp/search" text=""/>
+<$action-navigate $to="$:/AdvancedSearch"/>
+{{$:/core/images/advanced-search-button}}
+</$button>
+
+<$button class="tc-btn-invisible" tooltip="Clear searchbar">
+<$action-setfield $tiddler="$:/temp/advancedsearch" text=""/>
+<$action-setfield $tiddler="$:/temp/search" text=""/>
+{{$:/core/images/close-button}}
+</$button>
+
+</div>
+
+<$list filter="[{$:/temp/search}minlength{$:/config/Search/MinLength}limit[1]]" emptyMessage=<<empty-search>> variable="listItem">
+<$linkcatcher actions=<<searchresults>>>
+''Tiddlers''<br/>
+<$list filter="[!is[system]search{$:/temp/search}sort[title]limit[100]] -[[$:/temp/search]]">
+<$link><$view field="title"/></$link><br/>
+</$list>
+</$linkcatcher>
+</$list>
+
+</div>
+</$reveal>
+
+</div>
+</$reveal>
+</$reveal>
