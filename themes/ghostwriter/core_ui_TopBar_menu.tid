@@ -1,12 +1,11 @@
-type: text/vnd.tiddlywiki
 title: $:/core/ui/TopBar/menu
+type: text/vnd.tiddlywiki
 tags: $:/tags/TopRightBar $:/irreverent-mudblood/ghostwriter
-revision: 0
-modifier: Dr. Rizwan Ishak
-modified: 20161031174446206
+bag: default
 creator: Dr. Rizwan Ishak
 created: 20161002082547234
-bag: default
+modifier: Dr. Rizwan Ishak
+modified: 20161031174446206
 
 <$reveal state="$:/state/sidebar" type="nomatch" text="no" default="no">
 <$button set="$:/state/sidebar" setTo="no" tooltip={{$:/language/Buttons/HideSideBar/Hint}} aria-label={{$:/language/Buttons/HideSideBar/Caption}} class="roundbtn">

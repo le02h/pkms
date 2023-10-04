@@ -1,14 +1,13 @@
-type: application/x-tiddler-dictionary
 title: $:/palettes/Vanilla
+type: application/x-tiddler-dictionary
 tags: $:/tags/Palette $:/irreverent-mudblood/ghostwriter
-revision: 0
+bag: default
 name: Vanilla
-modifier: venomspinner
-modified: 20161031174446260
 description: Pale and unobtrusive
 creator: venomspinner
 created: 20161028065018599
-bag: default
+modifier: venomspinner
+modified: 20161031174446260
 
 alert-background: #ffe476
 alert-border: #b99e2f

@@ -1,10 +1,9 @@
-created: 20161030153934135
-type: text/vnd.tiddlywiki
 title: $:/irreverent-mudblood/overlay-sidebar/backgroundstyle
+type: text/vnd.tiddlywiki
 tags: $:/OverlaySidebar $:/irreverent-mudblood/ghostwriter
-revision: 0
-modified: 20161109105829329
 bag: default
+created: 20161030153934135
+modified: 20161109105829329
 
 <style>
 @media only screen and (min-width: {{$:/themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint}}) {

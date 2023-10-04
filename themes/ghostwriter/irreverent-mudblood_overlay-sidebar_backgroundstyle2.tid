@@ -1,0 +1,10 @@
+title: $:/irreverent-mudblood/overlay-sidebar/backgroundstyle2
+type: text/vnd.tiddlywiki
+tags: $:/OverlaySidebar $:/irreverent-mudblood/ghostwriter
+bag: default
+creator: Dr. Rizwan Ishak
+created: 20160829073842702
+modifier: Dr. Rizwan Ishak
+modified: 20161031174446321
+
+<style>.tc-sidebar-scrollable { background-color: rgba(0,0,0,0.0); z-index: -1; }</style>

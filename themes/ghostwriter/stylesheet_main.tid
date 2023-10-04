@@ -1,16 +1,14 @@
-type: text/vnd.tiddlywiki
 title: $:/themes/ghostwriter/stylesheet/main
-theme_color: #f03838
+type: text/vnd.tiddlywiki
 tags: $:/tags/Stylesheet $:/irreverent-mudblood/ghostwriter
+bag: default
+theme_color: #f03838
 sitesubtitlefontsize: 16px
 sitesubtitlefont: Parisienne, monospace
-revision: 0
-modifier: Riz
-modified: 20161202041846264
 creator: venomspinner
 created: 20161028105046905
-bag: default
-
+modifier: Riz
+modified: 20161202041846264
  
 ---
 /* System */
