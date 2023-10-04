@@ -1,0 +1,13 @@
+created: 20190406155850870
+title: $:/themes/tesseract/clevernote/pageTemplate/sidebar
+modified: 20190409120811469
+tags: $:/tags/Clevernote/PageTemplate
+list: $:/themes/tesseract/clevernote/logo-container $:/themes/tesseract/clevernote/pagecontrol-container $:/themes/tesseract/clevernote/tabs-container
+
+<div class="sidebar bar-left">
+<div class="sidebar-inner">
+<div class="sidebar-buttons">
+<$list filter="[all[shadows+tiddlers]tag[$:/tags/clevernote/sidebar]!has[draft.of]]"><$transclude/></$list>
+</div>
+</div>
+</div>

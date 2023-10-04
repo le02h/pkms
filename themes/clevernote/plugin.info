@@ -1,0 +1,7 @@
+{
+  "title": "$:/themes/tesseract/CleverNote"
+, "author": "Riz"
+, "description": "CleverNote"
+, "dependents": ["$:/themes/tiddlywiki/vanilla"]
+, "version": "1.0.49"
+}

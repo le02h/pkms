@@ -1,0 +1,28 @@
+created: 20190406170232820
+title: $:/themes/tesseract/clevernote/pagecontrol-container
+modified: 20190408062603943
+tags: $:/tags/clevernote/sidebar
+
+\define config-title()
+$:/config/PageControlButtons/Visibility/$(listItem)$
+\end
+
+<div class="clev-pagecontrol-container">
+		<$list filter="[all[shadows+tiddlers]tag[$:/tags/PageControls]!has[draft.of]]" variable="listItem">
+						<$reveal type="nomatch" state=<<config-title>> text="hide">
+							
+<div class="clev-pagecontrol-button-container-level1">
+<div class="clev-pagecontrol-button-container-level2">
+<div class="clev-pagecontrol-button-container-level3">
+<div class="clev-pagecontrol-button-container-level4">
+<div>
+<$transclude tiddler=<<listItem>> mode="inline"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+                                                  
+						</$reveal>
+			</$list>
+</div>

@@ -1,0 +1,14 @@
+created: 20171204163223085
+title: $:/themes/tesseract/clevernote/sidebar/tags
+tags: $:/tags/SideBar
+modified: 20190408070326104
+icon: $:/core/images/tag-button
+caption: Tags
+
+<div class="tc-sidebar">
+		<$list filter="[tags[]!prefix[$]] -[[TableOfContents]]">
+
+		{{||$:/core/ui/TagTemplate}}
+
+		</$list>
+</div>

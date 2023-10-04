@@ -1,0 +1,12 @@
+created: 20171209032805603
+title: $:/themes/tesseract/clevernote/buttons/searchbarToggle
+modified: 20190409120052827
+
+<$button class="zaah-btn-square">{{$:/core/images/advanced-search-button}}
+<$reveal type="match" state="$:/state/mobile-searchbar" text="yes">
+<$action-setfield $tiddler="$:/state/mobile-searchbar" $value="no"/>
+</$reveal>
+<$reveal type="match" state="$:/state/mobile-searchbar" text="no" default="no">
+<$action-setfield $tiddler="$:/state/mobile-searchbar" $value="yes"/>
+</$reveal>
+</$button>

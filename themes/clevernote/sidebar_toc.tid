@@ -1,0 +1,23 @@
+created: 20171203062210061
+title: $:/themes/tesseract/clevernote/sidebar/toc
+tags: $:/tags/SideBar
+modified: 20190408070634017
+icon: $:/core/images/anchor
+caption: Contents
+
+\define toc-actions()
+<$action-setfield $tiddler="$:/state/sidebar" text="no"/>
+<$action-navigate $to=<<navigateTo>>>
+\end
+<div class="tc-sidebar">
+<$reveal state="$:/info/browser/screen/width" type="lteq" text="1000">
+<$linkcatcher actions=<<toc-actions>>>
+<<toc-selective-expandable 'TableOfContents'>>
+</$linkcatcher>
+</$reveal>
+
+<$reveal state="$:/info/browser/screen/width" type="gt" text="1000">
+<<toc-selective-expandable 'TableOfContents'>>
+</$reveal>
+
+</div>

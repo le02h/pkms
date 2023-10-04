@@ -1,0 +1,11 @@
+created: 20171206043449367
+title: $:/themes/tesseract/clevernote/pageTemplate/topbar
+tags: $:/tags/Clevernote/PageTemplate
+modified: 20190409120748163
+
+<div class="zaah-topbar-container">
+<div class="zaah-topbar">
+{{$:/core/ui/PageTemplate/topleftbar}}
+{{$:/themes/tesseract/clevernote/pageTemplate/toprightbar}}
+</div>
+</div>

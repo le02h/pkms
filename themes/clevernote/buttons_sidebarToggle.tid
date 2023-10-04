@@ -1,0 +1,18 @@
+created: 20171208042757688
+title: $:/themes/tesseract/clevernote/buttons/sidebarToggle
+tags: $:/tags/MobilePageTemplate
+modified: 20190409120030998
+
+<div class="switch-container">
+<div class="switch">
+
+<$button class="zaah-btn-rounded">{{$:/core/images/menu-button}}
+<$reveal type="match" state="$:/state/sidebar" text="yes">
+<$action-setfield $tiddler="$:/state/sidebar" $value="no"/>
+</$reveal>
+<$reveal type="match" state="$:/state/sidebar" text="no">
+<$action-setfield $tiddler="$:/state/sidebar" $value="yes"/>
+</$reveal>
+</$button>
+</div>
+</div>

@@ -1,0 +1,10 @@
+title: $:/themes/clevernote/config/editTemplate
+tags: 
+modified: 20190408183710561
+created: 20190408162256923
+
+!! Edit Template
+
+<$list filter="[all[shadows+tiddlers]tag[$:/tags/EditTemplate]!has[draft.of]]">
+<div><$checkbox tag="$:/tags/EditTemplate">  {{!!title}} </$checkbox></div>
+</$list>
