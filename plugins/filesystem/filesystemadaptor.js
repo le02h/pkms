@@ -102,8 +102,12 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
       wiki: this.wiki,
       fileInfo
     })
-    if (fileInfo && this.wiki.isSystemTiddler(title)) {
-      newInfo.filepath = fileInfo.filepath
+    if (fileInfo) {
+      if (this.wiki.isSystemTiddler(title)) {
+        newInfo.filepath = fileInfo.filepath
+      } else if (fs.existsSync(fileInfo.filepath) && !fs.existsSync(newInfo.filepath)) {
+        newInfo.filepath = fileInfo.filepath
+      }
     }
     callback(null, newInfo)
   }

@@ -6,6 +6,10 @@ created: 20171207163956055
 modified: 20190426050156576
 list-after: $:/themes/tiddlywiki/vanilla/base
 
+\define button-selector(title)
+button.$title$, .tc-drop-down button.$title$, div.$title$
+\end
+
 body {
 margin: 0;
 padding: 0;
@@ -596,3 +600,22 @@ padding-bottom: 2em;
 overflow: visible;
 overflow-x: auto;
 }
+
+<$reveal state="$:/config/readonly" type="match" text="yes">
+<<button-selector tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fclone>>,
+<<button-selector tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fdelete>>,
+<<button-selector tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fedit>>,
+<<button-selector tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-here>>,
+<<button-selector tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-journal-here>>,
+<<button-selector tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fimport>>,
+<<button-selector tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fmanager>>,
+<<button-selector tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-image>>,
+<<button-selector tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fmore-tiddler-actions>>,
+<<button-selector tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-journal>>,
+<<button-selector tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-tiddler>> {
+	display: none;
+}
+.logo-container + .clev-pagecontrol-container {
+	display: none;
+}
+</$reveal>

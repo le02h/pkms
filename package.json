@@ -9,12 +9,16 @@
   "scripts": {
     "tw5": "tiddlywiki",
     "lint": "eslint",
-    "listen": "tiddlywiki exp --listen",
-    "build:PL": "tiddlywiki data/PL --build static",
+    "listen:exp": "tiddlywiki exp --listen",
+    "listen:PL": "tiddlywiki data/PL --listen path-prefix=/PL",
+    "build:PL": "tiddlywiki data/PL --build index",
     "extract-plugin": "node src/index.js extract-plugin",
+    "trim-html": "node src/index.js trim-html",
     "start": "node src/index.js serve data"
   },
-  "keywords": ["pkms"],
+  "keywords": [
+    "pkms"
+  ],
   "author": "Holmes Conan",
   "license": "ISC",
   "dependencies": {
