@@ -1,0 +1,6 @@
+{
+	"title": "$:/plugins/github-pages",
+	"name": "GitHub Pages",
+	"description": "render the tiddlywiki to GitHub Pages static files site",
+	"list": "readme"
+}
