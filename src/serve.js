@@ -27,8 +27,8 @@ function handler (argv) {
     maxAge: 3600
   }))
 
-  app.listen(argv.port, () => {
-    console.log(`Serving on http://localhost:${argv.port}`)
+  app.listen(argv.port, argv.host, () => {
+    console.log(`Serving on http://${argv.host}:${argv.port}`)
   })
 }
 
@@ -44,6 +44,10 @@ module.exports = {
       type: 'number',
       default: 8080,
       describe: 'listen port (default 8080)'
+    }).option('host', {
+      type: 'string',
+      default: 'localhost',
+      describe: 'listen host (default localhost)'
     })
   },
   handler
