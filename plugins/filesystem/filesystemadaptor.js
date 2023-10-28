@@ -27,6 +27,7 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
     this.logger = new $tw.utils.Logger('filesystem', { colour: 'blue' })
     // Create the <wiki>/tiddlers folder if it doesn't exist
     $tw.utils.createDirectory(this.boot.wikiTiddlersPath)
+    this.draftDebounceTimer = null
   }
 
   FileSystemAdaptor.prototype.name = 'filesystem'
@@ -36,6 +37,10 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
   FileSystemAdaptor.prototype.isReady = function () {
     // The file system adaptor is always ready
     return true
+  }
+
+  FileSystemAdaptor.prototype.getDraftJsonFilePath = function () {
+    return path.resolve(this.boot.wikiTiddlersPath, 'drafts.json')
   }
 
   FileSystemAdaptor.prototype.getSystemJsonFilePath = function () {
@@ -70,7 +75,7 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
 
   FileSystemAdaptor.prototype.shouldSaveInCache = function (tiddler) {
     const titles = ['$:/StoryList', '$:/Import']
-    return !!tiddler.fields['draft.of'] || titles.includes(tiddler.fields.title)
+    return titles.includes(tiddler.fields.title)
   }
 
   FileSystemAdaptor.prototype.getTiddlerInfo = function (tiddler) {
@@ -120,6 +125,15 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
     if (this.shouldSaveInCache(tiddler)) {
       cache[title] = tiddler.fields
       callback(null)
+    } else if (tiddler.fields['draft.of']) {
+      if (this.draftDebounceTimer) {
+        clearTimeout(this.draftDebounceTimer)
+        this.draftDebounceTimer = null
+      }
+      this.draftDebounceTimer = setTimeout(() => {
+        this.draftDebounceTimer = null
+        this.saveDraftTiddlerToJsonFile(tiddler, options, callback)
+      }, 200)
     } else if (this.wiki.isSystemTiddler(title)) {
       this.saveSystemTiddler(tiddler, options, callback)
     } else if (/^image\/.*$/.test(tiddler.fields.type)) {
@@ -127,6 +141,24 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
     } else {
       this.saveDataTiddler(tiddler, options, callback)
     }
+  }
+
+  FileSystemAdaptor.prototype.saveDraftTiddlerToJsonFile = function (tiddler, options, callback) {
+    const tiddlerTitle = tiddler.fields.title
+    const filepath = this.getDraftJsonFilePath()
+    const tiddlers = fs.existsSync(filepath) ? JSON.parse(fs.readFileSync(filepath, 'utf-8')) : []
+    const fields = this.serializeTiddlerFields(tiddler)
+    const index = tiddlers.findIndex(t => t.title === tiddlerTitle)
+    if (index >= 0) {
+      tiddlers[index] = fields
+    } else {
+      tiddlers.push(fields)
+    }
+
+    this.writeToJsonFile(filepath, tiddlers, (err) => {
+      if (err) return callback(err)
+      callback(null, null)
+    })
   }
 
   FileSystemAdaptor.prototype.saveSystemTiddler = function (tiddler, options, callback) {
@@ -249,6 +281,8 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
     if (cache[title]) {
       delete cache[title]
       callback(null, null)
+    } else if (/^Draft of/.test(title)) {
+      this.removeDraftTiddler(title, callback)
     } else if (this.wiki.isSystemTiddler(title)) {
       this.removeSystemTiddler(title, callback)
     } else {
@@ -263,6 +297,18 @@ A sync adaptor module for synchronising with the local filesystem via node.js AP
         callback(null, null)
       }
     }
+  }
+
+  FileSystemAdaptor.prototype.removeDraftTiddler = function (title, callback) {
+    const filepath = this.getDraftJsonFilePath()
+    const tiddlers = fs.existsSync(filepath) ? JSON.parse(fs.readFileSync(filepath, 'utf-8')) : []
+    const index = tiddlers.findIndex(t => t.title === title)
+    if (index === -1) return callback(null, null)
+    tiddlers.splice(index, 1)
+    this.writeToJsonFile(filepath, tiddlers, (err) => {
+      if (err) return callback(err)
+      callback(null, null)
+    })
   }
 
   FileSystemAdaptor.prototype.removeSystemTiddler = function (title, callback) {
