@@ -1,7 +1,7 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd -- $( dirname -- ${BASH_SOURCE[0]} ) &> /dev/null && pwd )
 ROOT_DIR=$(realpath $SCRIPT_DIR/.)
-branch=master
+branch=main
 
 function push-submodule() {
   local dir=$1
