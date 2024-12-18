@@ -1,0 +1,28 @@
+#!/bin/bash
+root=/root/pkms/data
+logfile=/tmp/push-pkms-data.log
+
+function log() {
+  printf ">>> %s add, commit and push %s.\n" "$(date)" $1 >> $logfile
+}
+
+# add, commit and push
+function gacp() {
+  local name=$1
+  local branch=$1
+  shift 1
+  cd $root/$name
+  branch=$(git branch --show-current)
+
+  log $name
+  git add --all 2>>$logfile 1>>$logfile
+  git commit -a -m "edit: $(date)" 2>>$logfile 1>>$logfile
+  for remote in $*; do
+    git push $remote $branch 2>>$logfile 1>>$logfile
+  done
+  printf "%s/%s is done\n\n" $root $name >> $logfile
+}
+
+rm -f $logfile
+gacp journals origin backup
+gacp . origin
