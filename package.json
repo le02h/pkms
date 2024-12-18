@@ -16,7 +16,7 @@
     "build:PL": "tiddlywiki data/PL --build index",
     "extract-plugin": "node src/index.js extract-plugin",
     "trim-html": "node src/index.js trim-html",
-    "start": "node src/index.js serve data"
+    "start": "node src/index.js serve data --host 192.168.3.1"
   },
   "keywords": [
     "pkms"

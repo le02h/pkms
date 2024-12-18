@@ -17,13 +17,11 @@ function push-submodule() {
   fi
 }
 
-push-submodule $ROOT_DIR/wikis/PL origin
-push-submodule $ROOT_DIR/wikis/journals origin github
+push-submodule $ROOT_DIR/data/journals origin github
 
 cd $ROOT_DIR
 git add --all
-git add wikis/PL
-git add wikis/journals
+git add data/journals
 git commit -m "$(date)"
 git push origin $branch
 git push github $branch
